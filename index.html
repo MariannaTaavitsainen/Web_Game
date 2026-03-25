@@ -18,27 +18,23 @@ Web-game
 
 <body>
     <div id="gameSpace">
-        <h1>Goat Runner</h1><br>
+        <h1>Goat Runner</h1>
 
-        <div class=titleBox>
-            <button class=title onclick="startGame()">Start Game</button>
+        <div class="titleBox" id="menuButtons">
+            <button class="title" onclick="startGame()">Start Game</button>
             <br>
+            <button class="title" onclick="openSettings()">Settings</button>
+            <br>
+            <button class="title" onclick="showHighscores()">Highscores</button>
+        </div>
 
-            <button class=title onclick="openSettings()">Settings</button>
-            <br>
-
-            <button class=title onclick="showHighscores()">Highscores</button>
-            <br>
-        </div>
-        <div id="goat">
-            <img id="goatImg" src="assets/img/run1.png" alt="goat">
-        </div>
-        <div id=road>
-        </div>
+        <div id="goat" class="goat" style="display:none;"></div>
+        <div id="road"></div>
     </div>
 
-<script src="js/background.js"></script>
-<script src="js/main.js" ></script>
-
+    <script src="js/background.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/game.js"></script>
+    
 </body>
 </html>

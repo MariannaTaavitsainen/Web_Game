@@ -1,6 +1,7 @@
 .title{
     font-size: 30px;
     margin-bottom: 10px;
+    display:block;
 }
     
 
@@ -38,19 +39,46 @@
     border: 2px black;
 }
 
-#goat {
-    position: absolute;
-    bottom: 55px;
+.goat {
+    bottom: 64px;
     left: 50px;
     width: 80px;
     height: 80px;
-    z-index: 10;
+    background: url("../assets/img/goatSprites.png.png") no-repeat;
+    background-size: 320px 80px; 
+    animation: run 0.5s steps(4) infinite;
+    z-index: 1;
+    transition: bottom 0.25s ease-out;
+    position: absolute;
 }
 
-#goat img {
-    width: 80px;
+.goatJump{
+    animation:none;
+    transform: translateY(-120px); /* hyppy ylöspäin */
+}
+
+@keyframes run {
+    from { background-position: 0 0; }
+    to { background-position: -320px 0; }
+}
+
+.obstacle{
+    width: 120px;
     height: 80px;
-    /**/
-
+    position: absolute;
+    bottom: 58px;
+    background-size: cover;
+    z-index: 1;
 }
 
+.obstacle.poop {
+    background-image: url("assets/img/poop.png");
+}
+
+.obstacle.rock {
+    background-image: url("assets/img/rock.png");
+}
+
+.obstacle.egg {
+    background-image: url("assets/img/egg.png");
+}
