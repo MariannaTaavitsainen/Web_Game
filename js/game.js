@@ -1,12 +1,12 @@
 class Goat {
     constructor() {
         this.element = document.getElementById("goat");
-        this.width = 74;
-        this.height = 78;
         this.x = 70;
         this.y = 75;                    
         this.verticalSpeed = 0;
         this.isJumping = false;
+        this.jumpSound = new Audio("assets/sounds/goatJump.wav");
+        this.jumpSound.preload = "auto";
     }
 
     start() {
@@ -17,13 +17,18 @@ class Goat {
         if (this.isJumping) return;
 
         this.isJumping = true;
+
+        this.jumpSound.currentTime = 0;
+        this.jumpSound.play().catch(err => console.warn("Audio ei toimi:", err));
         const jumpMax = 300;   
         const ground = 64;     
         let goingUp = true;    
 
+ 
         
         const step = () => {
             if (!this.isJumping ) return;
+
 
             if (goingUp) {
                 this.y += 10; 
@@ -47,7 +52,7 @@ class Goat {
 
         step();
     }
-
+        
     getHitArea(){
         const rect = this.element.getBoundingClientRect();
         const gameSpaceRect = document.getElementById("gameSpace").getBoundingClientRect();
@@ -147,7 +152,10 @@ class Game {
         this.lastSpawnTime = 0;
         this.isRunning = false;
         this.animationFrame = null;  
-        this.points = new Points("points");     
+        this.points = new Points("points");    
+        this.hitSound = new Audio("assets/sounds/hitSound.mpeg");
+        this.hitSound.preload = "auto";
+ 
     }
 
     start(){
@@ -180,6 +188,10 @@ class Game {
 
     gameOver(){
         this.isRunning = false;
+
+        this.hitSound.currentTime = 0;
+        this.hitSound.play().catch(err => console.warn("Audio ei toimi:", err));
+
         cancelAnimationFrame(this.animationFrame);
 
         this.obstacles.forEach(obs => obs.remove()); 
