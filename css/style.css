@@ -5,7 +5,7 @@
 }
     
 
-#gameSpace {
+#gameSpace{
     width: 900px;
     height: 400px;
     border: 2px solid black;
@@ -16,7 +16,7 @@
     position: relative;
 }
 
-#road {
+#road{
     width: 900px;
     height: 87px;
     background-image: url("../assets/img/road.png");
@@ -31,7 +31,6 @@
 #titleBox{
     width: 300px;
     height: 300px;
-
     justify-content: center;
     align-items: center;
     display: flex;
@@ -39,46 +38,54 @@
     border: 2px black;
 }
 
-.goat {
+.goat{
     bottom: 64px;
     left: 50px;
-    width: 80px;
-    height: 80px;
+    width: 74px;
+    height: 78px;
     background: url("../assets/img/goatSprites.png.png") no-repeat;
-    background-size: 320px 80px; 
+    background-size: 320px 78px; 
     animation: run 0.5s steps(4) infinite;
     z-index: 1;
     transition: bottom 0.25s ease-out;
     position: absolute;
 }
 
-.goatJump{
-    animation:none;
-    transform: translateY(-120px); /* hyppy ylöspäin */
-}
 
-@keyframes run {
+@keyframes run{
     from { background-position: 0 0; }
     to { background-position: -320px 0; }
 }
 
 .obstacle{
-    width: 120px;
-    height: 80px;
     position: absolute;
     bottom: 58px;
     background-size: cover;
     z-index: 1;
 }
 
-.obstacle.poop {
-    background-image: url("assets/img/poop.png");
+.obstacle.poop{
+    background-image: url("../assets/img/poop.png");
+    width: 69px;
+    height: 62px;
 }
 
-.obstacle.rock {
-    background-image: url("assets/img/rock.png");
+.obstacle.rock{
+    background-image: url("../assets/img/rock.png");
+    width: 115px;
+    height: 68px;
 }
 
-.obstacle.egg {
-    background-image: url("assets/img/egg.png");
+.obstacle.egg{
+    background-image: url("../assets/img/egg.png");
+    width: 72px;
+    height: 65px;
+}
+
+#points{
+    position:absolute; 
+    top:10px; 
+    right:20px; 
+    font-size:24px;
+    font-size: 30;
 }

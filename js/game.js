@@ -1,9 +1,10 @@
 class Goat {
     constructor() {
         this.element = document.getElementById("goat");
-        this.width = this.element.offsetWidth;
-        this.height = this.element.offsetHeight;
-        this.y = 64;                    
+        this.width = 74;
+        this.height = 78;
+        this.x = 70;
+        this.y = 75;                    
         this.verticalSpeed = 0;
         this.isJumping = false;
     }
@@ -25,7 +26,6 @@ class Goat {
             if (!this.isJumping ) return;
 
             if (goingUp) {
-                this.isJumping = true
                 this.y += 10; 
                 if (this.y >= jumpMax){
                     goingUp = false;
@@ -40,89 +40,131 @@ class Goat {
 
             this.element.style.bottom = this.y + "px";
 
-            if (this.isJumping) requestAnimationFrame(step);
+            if (this.isJumping){
+                 requestAnimationFrame(step);
+            }        
         };
 
         step();
     }
+
+    getHitArea(){
+        const rect = this.element.getBoundingClientRect();
+        const gameSpaceRect = document.getElementById("gameSpace").getBoundingClientRect();
+
+        return {
+            x: rect.left - gameSpaceRect.left,
+            y: rect.bottom - gameSpaceRect.top - rect.height,
+            width: rect.width -15,
+            height: rect.height -15
+        };
+    }
+
 }
 
+class Points{
+    constructor(elementId){
+        this.points = 0;
+    }
+
+    reset(){
+        this.points = onabort;
+        this.lastTime = performance.now();
+        this.updateDisplay();
+    }
+}
+
+
 class Obstacle {
-    constructor(type) {
+    constructor(type){
         this.type = type;
         this.x = 920;   
         this.y = 60;    
 
         this.element = document.createElement("div");
         this.element.classList.add("obstacle", type);
+        
+        document.getElementById("gameSpace").appendChild(this.element);
 
-        if (type === "poop") {
-            this.width = 69;
-            this.height = 62;
-            this.element.style.backgroundImage = "url('assets/img/poop.png')";
-        } 
-        else if (type === "rock") {
-            this.width = 115;
-            this.height = 68;
-            this.element.style.backgroundImage = "url('assets/img/rock.png')";
-        } 
-        else if (type === "egg") {
-            this.width = 72;
-            this.height = 65;
-            this.element.style.backgroundImage = "url('assets/img/egg.png')";
-        }
-
-        this.element.style.width = this.width + "px";
-        this.element.style.height = this.height + "px";
+        this.width = this.element.offsetWidth;
+        this.height = this.element.offsetHeight;
 
         this.element.style.left = this.x + "px";
         this.element.style.bottom = this.y + "px";
-
-        document.getElementById("gameSpace").appendChild(this.element);
     }
 
-    update(speed) {
+    getHitArea(){
+    const rect = this.element.getBoundingClientRect();
+    const gameSpaceRect = document.getElementById("gameSpace").getBoundingClientRect();
+
+    return {
+        x: rect.left - gameSpaceRect.left,                  
+        y: rect.bottom - gameSpaceRect.top - rect.height,  
+        width: rect.width -10,                                  
+        height: rect.height -10
+    };
+}
+
+
+    update(speed){
         this.x -= speed; 
         this.element.style.left = this.x + "px";
     }
 
-    isOffScreen() {
+    isOffScreen(){
         return this.x + this.width < 0;
     }
 
-    remove() {
+    remove(){
         this.element.remove();
     }
 }
 
 class Game {
-    constructor() {
-        this.player = null;
+    constructor(){
+        this.Goat = null;
         this.obstacles = [];
         this.gameSpeed = 5;
         this.lastSpawnTime = 0;
         this.isRunning = false;
-        this.animationFrame = null;
-
+        this.animationFrame = null;       
     }
 
-    start() {
+    start(){
         if (this.isRunning) return;
 
         this.isRunning = true;
         this.obstacles.forEach(obs => obs.remove()); 
         this.obstacles = [];
 
-        this.player = new Goat();
-        this.player.start();
+        this.Goat = new Goat();
+        this.Goat.start();
 
         this.lastSpawnTime = performance.now();
 
         this.animationFrame = requestAnimationFrame((time) => this.gameLoop(time));
     }
 
+    checkCrash(a,b){
+        return(
+            a.x < b.x + b.width && a.x + a.width > b.x &&
+            a.y < b.y + b.height && a.y + a.height > b.y
+        );
+    }
 
-    gameLoop(timestamp) {
+
+    gameOver(){
+        this.isRunning = false;
+        cancelAnimationFrame(this.animationFrame);
+
+        this.obstacles.forEach(obs => obs.remove()); 
+
+        if (this.Goat) this.Goat.element.style.display = "none";
+        alert("Game over!");
+    }
+
+
+    gameLoop(timestamp){
         if (!this.isRunning) return;
 
         if (timestamp - this.lastSpawnTime > 1600 + Math.random() * 700) {
@@ -133,25 +175,41 @@ class Game {
         }
 
         for (let i = this.obstacles.length - 1; i >= 0; i--) {
-            const obs = this.obstacles[i];
-            obs.update(this.gameSpeed);
+            const obstacle = this.obstacles[i];
+            obstacle.update(this.gameSpeed);
 
-            if (obs.isOffScreen()) {
-                obs.remove();
+            const goatBox = this.Goat.getHitArea();
+            const obstacleBox = obstacle.getHitArea();
+
+            console.log("Goat:", goatBox.x, goatBox.y, goatBox.width, goatBox.height);
+            console.log("Obstacle:", obstacleBox.x, obstacleBox.y, obstacleBox.width, obstacleBox.height);
+
+            if(this.checkCrash(goatBox, obstacleBox)){
+                alert("oops!");
+                this.gameOver();
+                return;
+            }
+
+            if (obstacle.isOffScreen()) {
+                obstacle.remove();
                 this.obstacles.splice(i, 1);
             }
         }
 
         this.animationFrame = requestAnimationFrame((time) => this.gameLoop(time));
     }
+
+
 }
 
-document.addEventListener("keydown", (e) => {
+
+
+document.addEventListener("keydown", (e) =>{
     if (!game || !game.isRunning) return;
 
     if (e.code === "Space") {
         e.preventDefault();
-        game.player.jump();
+        game.Goat.jump();
 
     }
 });
