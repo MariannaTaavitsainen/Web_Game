@@ -56,23 +56,13 @@ class Goat {
             x: rect.left - gameSpaceRect.left,
             y: rect.bottom - gameSpaceRect.top - rect.height,
             width: rect.width -15,
-            height: rect.height -15
+            height: rect.height -25
         };
     }
 
 }
 
-class Points{
-    constructor(elementId){
-        this.points = 0;
-    }
 
-    reset(){
-        this.points = onabort;
-        this.lastTime = performance.now();
-        this.updateDisplay();
-    }
-}
 
 
 class Obstacle {
@@ -100,7 +90,7 @@ class Obstacle {
     return {
         x: rect.left - gameSpaceRect.left,                  
         y: rect.bottom - gameSpaceRect.top - rect.height,  
-        width: rect.width -10,                                  
+        width: rect.width -30,                                  
         height: rect.height -10
     };
 }
@@ -120,6 +110,35 @@ class Obstacle {
     }
 }
 
+class Points{
+    constructor(elementId){
+        this.points = 0;
+        this.element = document.getElementById(elementId);
+    }
+
+    reset(){
+        this.points = 0;
+        this.updateDisplay();
+    }
+
+    add(amount) {
+        this.points += amount;
+        this.updateDisplay();
+    }
+
+    updateDisplay() {
+        this.element.textContent = this.points;
+    }
+
+    show() {
+        this.element.style.display = "block";
+    }
+
+    hide() {
+        this.element.style.display = "none";
+    }
+}
+
 class Game {
     constructor(){
         this.Goat = null;
@@ -127,18 +146,23 @@ class Game {
         this.gameSpeed = 5;
         this.lastSpawnTime = 0;
         this.isRunning = false;
-        this.animationFrame = null;       
+        this.animationFrame = null;  
+        this.points = new Points("points");     
     }
 
     start(){
         if (this.isRunning) return;
 
         this.isRunning = true;
+
         this.obstacles.forEach(obs => obs.remove()); 
         this.obstacles = [];
 
         this.Goat = new Goat();
         this.Goat.start();
+
+        this.points.reset();
+        this.points.show();
 
         this.lastSpawnTime = performance.now();
 
@@ -151,6 +175,7 @@ class Game {
             a.y < b.y + b.height && a.y + a.height > b.y
         );
     }
+
 
 
     gameOver(){
@@ -185,7 +210,6 @@ class Game {
             console.log("Obstacle:", obstacleBox.x, obstacleBox.y, obstacleBox.width, obstacleBox.height);
 
             if(this.checkCrash(goatBox, obstacleBox)){
-                alert("oops!");
                 this.gameOver();
                 return;
             }
@@ -193,6 +217,7 @@ class Game {
             if (obstacle.isOffScreen()) {
                 obstacle.remove();
                 this.obstacles.splice(i, 1);
+                this.points.add(10);
             }
         }
 
