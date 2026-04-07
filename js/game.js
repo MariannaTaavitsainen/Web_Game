@@ -18,14 +18,14 @@ class Goat {
 
         this.isJumping = true;
 
+        if(settings.soundOn){
         this.jumpSound.currentTime = 0;
-        this.jumpSound.play().catch(err => console.warn("Audio ei toimi:", err));
+        this.jumpSound.play();
+        }
         const jumpMax = 300;   
         const ground = 64;     
         let goingUp = true;    
-
  
-        
         const step = () => {
             if (!this.isJumping ) return;
 
@@ -66,8 +66,6 @@ class Goat {
     }
 
 }
-
-
 
 
 class Obstacle {
@@ -144,6 +142,79 @@ class Points{
     }
 }
 
+class Highscores {
+    constructor() {
+        this.key = "goatGameHighscores";
+        this.maxScores = 10;
+    }
+
+    getAll() {
+        const saved = localStorage.getItem(this.key);
+        return saved ? JSON.parse(saved) : [];
+    }
+
+    saveNew(score) {
+    const highscoresArea = document.getElementById("highscoresArea");
+    highscoresArea.style.display = "none";
+
+    const addDiv = document.getElementById("addNewHighscore");
+    addDiv.style.display = "block";
+
+    const saveButton = addDiv.querySelector("#saveHighscorebtn");
+    const nameInput = addDiv.querySelector("input");
+
+
+
+    return new Promise((resolve) => {
+        saveButton.onclick = () => {
+            const playerName = nameInput.value.trim() || "Anonym";
+
+            let scores = this.getAll();
+            scores.push({
+                name: playerName,
+                score: score,
+                date: new Date().toLocaleDateString()
+            });
+
+            scores.sort((a, b) => b.score - a.score);
+            scores = scores.slice(0, this.maxScores);
+            localStorage.setItem(this.key, JSON.stringify(scores));
+
+
+            addDiv.style.display = "none";
+            nameInput.value = "";
+
+            highscoresArea.style.display = "block";
+            this.render();
+
+            resolve(scores);
+        };
+    });
+}
+
+    render() {
+        const tbody = document.getElementById("highscoreList");
+        tbody.innerHTML = "";
+
+        const scores = this.getAll();
+
+        if (scores.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3">Earn at least 10 points and start filling the highscore list!</td></tr>`;
+            return;
+        }
+
+        scores.forEach((entry, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}.</td>
+                <td> ${entry.name}</td>
+                <td> ${entry.score}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
 class Game {
     constructor(){
         this.Goat = null;
@@ -155,11 +226,20 @@ class Game {
         this.points = new Points("points");    
         this.hitSound = new Audio("assets/sounds/hitSound.mpeg");
         this.hitSound.preload = "auto";
- 
+
+        this.runMusic = new Audio("assets/sounds/runMusic.mp3");
+        this.runMusic.loop = true;
+        this.runMusic.preload = "auto";
+    
     }
 
     start(){
         if (this.isRunning) return;
+
+        if(settings.musicOn){
+        this.runMusic.currentTime = 0;
+        this.runMusic.play();
+        }
 
         this.isRunning = true;
 
@@ -184,20 +264,47 @@ class Game {
         );
     }
 
-
+    stopMusic() {
+        if (this.runMusic) {
+            this.runMusic.pause();
+            this.runMusic.currentTime = 0;
+        }
+    }
 
     gameOver(){
         this.isRunning = false;
 
+        if(settings.soundOn){
         this.hitSound.currentTime = 0;
-        this.hitSound.play().catch(err => console.warn("Audio ei toimi:", err));
+        this.hitSound.play();
+        }
+
+        this.stopMusic();
 
         cancelAnimationFrame(this.animationFrame);
 
         this.obstacles.forEach(obs => obs.remove()); 
 
         if (this.Goat) this.Goat.element.style.display = "none";
-        alert("Game over!");
+
+        const finalScore = this.points.points;
+
+        const highscores = new Highscores();
+
+        const currentScores = highscores.getAll();
+        const minHighscore = currentScores.length < highscores.maxScores 
+            ? 0 
+            : currentScores[currentScores.length - 1].score;
+
+        // Näytetään highscores-näkymä aina game overissa
+        const highscoresArea = document.getElementById("highscoresArea");
+        highscoresArea.style.display = "block";
+
+        if (finalScore > minHighscore) {
+            highscores.saveNew(finalScore);
+        } else {
+            highscores.render();
+        }
     }
 
 

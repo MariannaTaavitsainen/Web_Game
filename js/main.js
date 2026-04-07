@@ -1,22 +1,77 @@
-let game = null;   // Täällä pidetään kirjaa pelistä
+class Settings {
+    constructor() {
+        this.musicOn = true;
+        this.soundOn = true;
 
-function startGame() {
-    // Jos peli on jo käynnissä, älä tee mitään
-    if (game && game.isRunning) return;
+        this.musicButton = document.getElementById("musicButton");
+        this.soundsButton = document.getElementById("soundsButton");
 
-    // Piilota aloitusvalikko
-    document.getElementById("menuButtons").style.display = "none";
+        if (this.musicButton) {
+            this.musicButton.textContent = "Music: ON";
+            this.musicButton.addEventListener("click", () => {
+                this.musicOn = !this.musicOn;
+                this.musicButton.textContent = "Music: " + (this.musicOn ? "ON" : "OFF");
+            });
+        }
 
-    // Luo uusi peli ja käynnistä se
-    game = new Game();
-    game.start();
+        if (this.soundsButton) {
+            this.soundsButton.textContent = "Sounds: ON";
+            this.soundsButton.addEventListener("click", () => {
+                this.soundOn = !this.soundOn;
+                this.soundsButton.textContent = "Sounds: " + (this.soundOn ? "ON" : "OFF");
+            });
+        }
+    }
 }
 
-// Asetukset ja highscore (voit täyttää myöhemmin)
+
+let game = null;
+const settings = new Settings();
+
+
 function openSettings() {
-    alert("Asetukset tulevat pian! 🛠️");
+    document.getElementById("settingsMenu").style.display = "block";
+    document.getElementById("menuButtons").style.display = "none";
+}
+
+function closeSettings() {
+    document.getElementById("settingsMenu").style.display = "none";
+    document.getElementById("menuButtons").style.display = "block";
 }
 
 function showHighscores() {
-    alert("Ennätykset tulevat pian! 🏆");
+    document.getElementById("menuButtons").style.display = "none";
+    document.getElementById("head").style.display="none";
+    
+    const highscoresArea = document.getElementById("highscoresArea");
+    highscoresArea.style.display = "block";
+
+
+    const highscores = new Highscores();  
+    highscores.render();
+}
+
+document.getElementById("backToMenuBtn").addEventListener("click", () => {
+    document.getElementById("highscoresArea").style.display = "none";
+    document.getElementById("menuButtons").style.display = "block";
+    document.getElementById("points").style.display = "none";
+    document.getElementById("head").style.display="block";
+});
+
+document.getElementById("playAgainBtn").addEventListener("click", () => {
+    document.getElementById("highscoresArea").style.display = "none";
+    document.getElementById("menuButtons").style.display = "none";
+    startGame();
+});
+
+
+function startGame() {
+    if (game && game.isRunning) return;
+
+    document.getElementById("menuButtons").style.display = "none";
+    document.getElementById("settingsMenu").style.display = "none";
+    document.getElementById("head").style.display="none";
+
+    game = new Game();
+    game.start();
 }

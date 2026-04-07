@@ -12,13 +12,12 @@ Web-game
 <meta name="keyword" content="html, OAMK">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="CSS/style.css">
-<link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Sofia|Afacad|Akatab|Alata' >
-
+<style>body { font-family: 'gameFont', sans-serif; } </style>
 </head>
 
 <body>
     <div id="gameSpace">
-        <h1>Goat Runner</h1>
+        <h1 id=head style= margin-left:20px;> Goat Runner</h1>
  
         <div id="points" style="display:none;"> 0 </div>
         <div class="titleBox" id="menuButtons">
@@ -31,6 +30,40 @@ Web-game
 
         <div id="goat" class="goat" style="display:none;"></div>
         <div id="road"></div>
+        <div id="settingsMenu">
+            <h2>Settings</h2>
+            
+            <button id="musicButton">Music: ON</button>
+            <br><br>
+            
+            <button id="soundsButton">Sounds: ON</button>
+            <br><br>
+            
+            <button onclick="closeSettings()">Close</button>
+        </div>
+
+    <div id="highscoresArea" class="screen" style="display: none;">
+        <h1 id="HighSTitle">Highscores</h1>
+            <table id="highscoreTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player</th>
+                        <th>Scores</th>
+                    </tr>
+                </thead>
+                <tbody id="highscoreList"></tbody>
+            </table>
+        <button id="backToMenuBtn">Main Menu</button>
+        <button id="playAgainBtn">Play Again</button>
+    </div>
+
+    <div id="addNewHighscore" style="display: none;">
+        <h2>New highscore!</h2>
+        <p>Give name:</p>
+        <input type="text" maxlength="6" placeholder="Nimi">
+        <br><br>
+        <button id="saveHighscorebtn">Save</button>
     </div>
 
     <script src="js/background.js"></script>
