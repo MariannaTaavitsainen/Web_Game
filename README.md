@@ -15,14 +15,14 @@ In addition, the project includes a weather feature that uses the OpenWeather AP
 ## Instructors for OpenWeather
 If you'd like to use opensource weather on app, you need api key. Instructors for Opensource:
 
-**1. In root folder (Web_Game) , add file .env and add line **
+**1. In root folder (Web_Game) , add file .env and add line**
 	OPENWEATHER_API_KEY=YOUR_KEY
 
-**2. Then, in terminal run**
+**2. In terminal run**
 
 npm install express dotenv node-fetch@2
 
-**3. Run **
+**3. Start the backend in terminal with**
 
 node server.js
 
