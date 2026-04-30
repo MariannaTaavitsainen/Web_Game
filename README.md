@@ -10,5 +10,5 @@ The game combines gameplay, scoring and sounds with settings. It has a localStor
 In addition, the project includes a weather feature that uses the OpenWeather API to display real-time weather in Oulu.
 
 ## Gameplay Preview
-![Game screenshot] (assets/img/game.png)
+![Game screenshot](assets/img/game.png)
 
