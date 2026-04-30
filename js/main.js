@@ -24,7 +24,6 @@ class Settings {
     }
 }
 
-
 let game = null;
 const settings = new Settings();
 
@@ -36,12 +35,11 @@ function openSettings() {
 
 function closeSettings() {
     document.getElementById("settingsMenu").style.display = "none";
-    document.getElementById("menuButtons").style.display = "block";
+    document.getElementById("menuButtons").style.display = "flex";
 }
 
 function showHighscores() {
     document.getElementById("menuButtons").style.display = "none";
-    document.getElementById("head").style.display="none";
     
     const highscoresArea = document.getElementById("highscoresArea");
     highscoresArea.style.display = "block";
@@ -53,7 +51,7 @@ function showHighscores() {
 
 document.getElementById("backToMenuBtn").addEventListener("click", () => {
     document.getElementById("highscoresArea").style.display = "none";
-    document.getElementById("menuButtons").style.display = "block";
+    document.getElementById("menuButtons").style.display = "flex";
     document.getElementById("points").style.display = "none";
     document.getElementById("head").style.display="block";
 });
@@ -63,7 +61,6 @@ document.getElementById("playAgainBtn").addEventListener("click", () => {
     document.getElementById("menuButtons").style.display = "none";
     startGame();
 });
-
 
 function startGame() {
     if (game && game.isRunning) return;
@@ -75,3 +72,12 @@ function startGame() {
     game = new Game();
     game.start();
 }
+
+fetch('http://localhost:3000/weather')
+  .then(res => res.json())
+  .then(data => {
+    console.log("Weather in oulu:", data);
+
+    console.log("Temperature:", data.main.temp + "°C");
+    console.log("Weather:", data.weather[0].description);
+  });

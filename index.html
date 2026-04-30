@@ -1,5 +1,3 @@
-This is for main-window, where you can choose "Start game", settings for sounds, and highscores.
-
 <!DOCTYPE html>
 <html lang="fi">
 <head>
@@ -16,59 +14,71 @@ Web-game
 </head>
 
 <body>
-    <div id="gameSpace">
+    <div id="container">
         <h1 id=head style= margin-left:20px;> Goat Runner</h1>
- 
-        <div id="points" style="display:none;"> 0 </div>
-        <div class="titleBox" id="menuButtons">
-            <button class="title" onclick="startGame()">Start Game</button>
-            <br>
-            <button class="title" onclick="openSettings()">Settings</button>
-            <br>
-            <button class="title" onclick="showHighscores()">Highscores</button>
+        <div id="gameSpace">
+
+            <div id="points" style="display:none;"> 0 </div>
+            <div class="titleBox" id="menuButtons">
+                <button class="title" onclick="startGame()">Start Game</button>
+                <br>
+                <button class="title" onclick="openSettings()">Settings</button>
+                <br>
+                <button class="title" onclick="showHighscores()">Highscores</button>
+            </div>
+
+            <div id="goat" class="goat" style="display:none;"></div>
+            <div id="road"></div>
+            <div id="settingsMenu">
+                <h2 id="headerSettings">Settings</h2>
+                
+                <button id="musicButton">Music: ON</button>
+                <br><br>
+                
+                <button id="soundsButton">Sounds: ON</button>
+                <br><br>
+                
+                <button onclick="closeSettings()">Close</button>
+            </div>
+
+        <div id="highscoresArea" class="screen" style="display: none;">
+            <h1 id="HighSTitle">Highscores</h1>
+                <table id="highscoreTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Scores</th>
+                        </tr>
+                    </thead>
+                    <tbody id="highscoreList"></tbody>
+                </table>
+            <button id="backToMenuBtn">Main Menu</button>
+            <button id="playAgainBtn">Play Again</button>
         </div>
 
-        <div id="goat" class="goat" style="display:none;"></div>
-        <div id="road"></div>
-        <div id="settingsMenu">
-            <h2>Settings</h2>
-            
-            <button id="musicButton">Music: ON</button>
+        <div id="addNewHighscore" style="display: none;">
+            <h2>New highscore!</h2>
+            <p>Give name:</p>
+            <input type="text" maxlength="6" placeholder="Anonym">
             <br><br>
-            
-            <button id="soundsButton">Sounds: ON</button>
-            <br><br>
-            
-            <button onclick="closeSettings()">Close</button>
+            <button id="saveHighscorebtn">Save</button>
         </div>
-
-    <div id="highscoresArea" class="screen" style="display: none;">
-        <h1 id="HighSTitle">Highscores</h1>
-            <table id="highscoreTable">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Player</th>
-                        <th>Scores</th>
-                    </tr>
-                </thead>
-                <tbody id="highscoreList"></tbody>
-            </table>
-        <button id="backToMenuBtn">Main Menu</button>
-        <button id="playAgainBtn">Play Again</button>
     </div>
-
-    <div id="addNewHighscore" style="display: none;">
-        <h2>New highscore!</h2>
-        <p>Give name:</p>
-        <input type="text" maxlength="6" placeholder="Nimi">
-        <br><br>
-        <button id="saveHighscorebtn">Save</button>
+    <div id="weatherBox">
+        <h3 id="headWeather">In case you'd like to go out instead of playing, here's the weather in <br><br> Oulu</h3>
+        <div id="weatherContent"></div>
+    </div> 
     </div>
-
     <script src="js/background.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/goat.js"></script>
+    <script src="js/obstacle.js"></script>
+    <script src="js/points.js"></script>
+    <script src="js/highscores.js"></script>
     <script src="js/game.js"></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="js/weather.js"></script>
 </body>
 </html>

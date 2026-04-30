@@ -15,15 +15,56 @@
        -1px -1px 0px black;
 }
 
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .title{
     font-size: 25px;
     margin-bottom: 10px;
     display:block;
-    margin-left: 20px;
+}
+
+#headerSettings{
+    font-size: 30px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+#menuButtons {
+    position: absolute;   /* tärkeä */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
 }
 
 .button{
     font-size: medium;
+}
+
+#head {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 45px;
+}
+
+body {
+    background: linear-gradient(to right, rgb(255, 203, 112), rgb(253, 225, 172), rgb(255, 203, 112));
+
+    display: flex;
+    justify-content: center;   
+    align-items: flex-start;       
+    height: 100vh;             
+    margin: 0;
 }
 
 #gameSpace{
@@ -172,4 +213,24 @@ button:hover {
     right:20px; 
     font-size:24px;
     font-size: 30;
+}
+
+#weatherBox {
+    width: 880px;
+    padding: 10px;
+    border: 2px solid black;
+    background: rgba(251, 230, 182, 0.8);
+    text-align: center;
+    margin-top: 15px;
+}
+
+#headWeather {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: rgb(165, 116, 72);
+}
+
+#weatherContent {
+    font-size: 25px;
+    color: rgb(165, 116, 72);
 }
