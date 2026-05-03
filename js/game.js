@@ -100,7 +100,8 @@ class Game {
         if (this.points.points % 40 === 0 && this.points.points > 0 && this.points.points < 510){
         const levels = this.points.points / 100;        
         minSpawnTime = 2000 * Math.pow(0.8, levels);    
-        maxSpawnTime = 4000 * Math.pow(0.85, levels);
+        maxSpawnTime = 4000 * Math.pow(0.8, levels);
+        this.gameSpeed = 5 * Math.pow(1.1, levels);
         }
 
         if (timestamp - this.lastSpawnTime > minSpawnTime + Math.random() * (maxSpawnTime - minSpawnTime)) {

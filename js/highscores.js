@@ -29,7 +29,6 @@ class Highscores {
                 scores.push({
                     name: playerName,
                     score: score,
-                    date: new Date().toLocaleDateString()
                 });
 
                 scores.sort((a, b) => b.score - a.score);
