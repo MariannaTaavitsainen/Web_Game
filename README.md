@@ -14,7 +14,7 @@ In addition, the project includes a weather feature that uses the OpenWeather AP
 
 ## How to play
 Use SPACE-button to jump over the obstacles. 
-The game will get more hard 400 points as the minimum and maximum distance between obstacles decreases.
+The game will get more hard 400 points as the minimum and maximum distance between obstacles decreases. Also the speed of obstacles grow with same rules.
 
 ## Instructors for OpenWeather
 If you'd like to use opensource weather on app, you need api key. Instructors for Opensource:

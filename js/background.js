@@ -1,5 +1,3 @@
-//In here will be the background-image moving, and the road-image moving stuff
-
 class Background {
     constructor(elementId, speed) {
         this.element = document.getElementById(elementId);
