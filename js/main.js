@@ -53,7 +53,6 @@ document.getElementById("backToMenuBtn").addEventListener("click", () => {
     document.getElementById("highscoresArea").style.display = "none";
     document.getElementById("menuButtons").style.display = "flex";
     document.getElementById("points").style.display = "none";
-    document.getElementById("head").style.display="block";
 });
 
 document.getElementById("playAgainBtn").addEventListener("click", () => {
@@ -67,7 +66,6 @@ function startGame() {
 
     document.getElementById("menuButtons").style.display = "none";
     document.getElementById("settingsMenu").style.display = "none";
-    document.getElementById("head").style.display="none";
 
     game = new Game();
     game.start();
