@@ -12,6 +12,10 @@ In addition, the project includes a weather feature that uses the OpenWeather AP
 ## Gameplay Preview
 ![Game screenshot](assets/img/game.png)
 
+## How to play
+Use SPACE-button to jump over the obstacles. 
+The game will get more hard 400 points as the minimum and maximum distance between obstacles decreases.
+
 ## Instructors for OpenWeather
 If you'd like to use opensource weather on app, you need api key. Instructors for Opensource:
 
